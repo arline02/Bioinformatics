@@ -30,7 +30,7 @@ PlotGoInfo(PGI_obj,directorypath = NULL)
 PlotGOAll(GOObj = PGI_obj, Top = 10, directorypath = getwd(), width = 8, height = 5)
 
 Patho <-GetPathology_Biotech(List[["Accessions"]],directorypath=NULL)
-diseases <- Get.diseases(Patho,directory=NULL) # save to file
+diseases <- Get.diseases(Patho,directory=NULL) # save to variable
 
 uni_protInfo<-fetch_uniprot("P0A799") 
 pdb<- fetch_pdb(pdb_ids=c("1ZMR"))
