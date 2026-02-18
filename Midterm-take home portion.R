@@ -1,5 +1,10 @@
+# put load library commands at the start of the script for easy loading
+library(msa)
+library(Biostrings)
+
 # Sequences are being aligned and read using the ReadDNAStringSet function
 # printed the variable to make sure all the DNA samples imported properly
+# make sure to put sequences.fasta in your Bioinformatics folder
 seq<- readDNAStringSet("/Users/arlinemartinez/Downloads/sequences.fasta", format="fasta")
 seq
 
@@ -21,7 +26,8 @@ detail(dnaseq)
 
 # The gene of the homo sapien with the mutation is hbb gene, the accession number with the best match was LC121775.1, I ran this on blastn. 
 # I am assigning the sequence for Homo_sapien 6 to the variable to aa_seq
-aa_seq<- DNAString("AATCTACTCCCAGGAGCAGGGAGGGCAGGAGCCAGGGCTGGGCATGAAAGTCAGGGCAGAGCCATCTATTGCTTACATTTGCTTCTGACACAACTGTGTTCACTAGCAACCTCAAACAGACACCATGGTGCACCTGACTCCTGTGGAGAAGTCTGCCGTTACTGCCCTGTGGGGCAAGGTGAACGTGGATGAAGTTGGTGGTGAGGCCCTGGGCAGGTTGGTATCAAGGTTACAAGACAGGTTTAAGGAGACCAATAGAAACTGGGCATGTGGAGACAGAGAAGACTCTTGGGTTTCTGATAGGCACTGACTCTCTCTGCCTATTGGTCTATTTTCCCACCCTTAGGCTGCTGGTGGTCTACCCTTGGACCCAGAGGTTCTTTGAGTCCTTTGGGGATCTGTCCACTCCTGATGCTGTTATGGGCAACCCTAAGGTGAAGGCTCATGGCAAGAAAGTGCTCGGTGCCTTTAGTGATGGCCTGGCTCACCTGGACAACCTCAAGGGCACCTTTGCCACACTGAGTGAGCTGCACTGTGACAAGCTGCACGTGGATCCTGAGAACTTCAGGGTGAGTCTATGGGACCCTTGATGTTTTCTTTCCCCTTCTTTTCTATGGTTAAGTTCATGTCATAGGAAGGGG",nchar=NA)
+aa_seq <- seq$Homo_sapiens_6 # easy to extract from the original sequence variable
+# aa_seq<- DNAString("AATCTACTCCCAGGAGCAGGGAGGGCAGGAGCCAGGGCTGGGCATGAAAGTCAGGGCAGAGCCATCTATTGCTTACATTTGCTTCTGACACAACTGTGTTCACTAGCAACCTCAAACAGACACCATGGTGCACCTGACTCCTGTGGAGAAGTCTGCCGTTACTGCCCTGTGGGGCAAGGTGAACGTGGATGAAGTTGGTGGTGAGGCCCTGGGCAGGTTGGTATCAAGGTTACAAGACAGGTTTAAGGAGACCAATAGAAACTGGGCATGTGGAGACAGAGAAGACTCTTGGGTTTCTGATAGGCACTGACTCTCTCTGCCTATTGGTCTATTTTCCCACCCTTAGGCTGCTGGTGGTCTACCCTTGGACCCAGAGGTTCTTTGAGTCCTTTGGGGATCTGTCCACTCCTGATGCTGTTATGGGCAACCCTAAGGTGAAGGCTCATGGCAAGAAAGTGCTCGGTGCCTTTAGTGATGGCCTGGCTCACCTGGACAACCTCAAGGGCACCTTTGCCACACTGAGTGAGCTGCACTGTGACAAGCTGCACGTGGATCCTGAGAACTTCAGGGTGAGTCTATGGGACCCTTGATGTTTTCTTTCCCCTTCTTTTCTATGGTTAAGTTCATGTCATAGGAAGGGG",nchar=NA)
 #Now the DNA sequence is being translated to an amino acid sequence
 actualAA <- Biostrings ::translate(aa_seq, genetic.code = GENETIC_CODE, no.init.codon=FALSE, if.fuzzy.codon = "error")
 # prints the amino acid sequence, if the previous code worked 
@@ -29,8 +35,8 @@ actualAA
 
 
 # I am saving the amino acid sequence as a FASTA file, but first I am writing the amino acid as an Xstring set to be able to save the amino acid sequence as a fasta file.
-for (i in names(actualAA)) 
-  +   writeXStringSet(myAAStringSet[[i]], filepath = paste("/Users/arlinemartinez/Documents/GitHub/Bioinformatics/",i, ".fasta"), format = "fasta")
+# for (i in names(actualAA)) 
+#   +   writeXStringSet(myAAStringSet[[i]], filepath = paste("/Users/arlinemartinez/Documents/GitHub/Bioinformatics/",i, ".fasta"), format = "fasta")
 write.fasta(names="actualAA", sequences=actualAA, file.out="actualAA.fasta")
 
 # After saving the amino acid sequence to the file, I ran the amino acid sequence in UniProt, and the accession number of the best match was A0A0J9YWK4.
